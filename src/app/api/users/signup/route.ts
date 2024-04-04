@@ -4,10 +4,9 @@ import { NextResponse, NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/utils/mailer";
 
-connectToDB();
-
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
+    connectToDB();
     const reqBody = await req.json();
     const { username, email, password } = reqBody;
     console.log(reqBody);
@@ -44,4 +43,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 }
 
-export async function GET() {}
+export async function GET() {
+  return NextResponse.json({ message: "get request working", status: 200 });
+}
