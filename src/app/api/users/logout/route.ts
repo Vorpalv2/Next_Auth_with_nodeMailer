@@ -2,7 +2,7 @@ import connectToDB from "@/dbconfig/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 
 connectToDB();
-export async function GET() {
+export async function POST() {
   try {
     const response = NextResponse.json({
       message: "logout successfully",

@@ -4,12 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   const reqBody = await request.json();
   const { token } = reqBody;
-
+  console.log("token", token);
   if (token !== null) {
+    // console.log("hello");
     const userFromDB = await User.findOne({
       verifyToken: token,
       verifyTokenExpiry: { $gt: Date.now() },
     });
+
+    console.log("user", userFromDB);
 
     if (userFromDB) {
       userFromDB.isVerified = true;
@@ -24,7 +27,7 @@ export async function POST(request: NextRequest) {
         textStatus: true,
       });
     } else {
-      return NextResponse.json({ message: "User Not Found", status: 400 });
+      return NextResponse.json({ message: "Invalid Token", status: 400 });
     }
   } else {
     return NextResponse.json({ message: "invalid URL", status: 400 });
