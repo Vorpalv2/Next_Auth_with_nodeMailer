@@ -1,15 +1,17 @@
+import connectToDB from "@/dbconfig/dbConnect";
 import { User } from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  connectToDB();
+
   const reqBody = await request.json();
   const { token } = reqBody;
-  console.log("token", token);
+  console.log(token, " :Token");
   if (token !== null) {
-    // console.log("hello");
     const userFromDB = await User.findOne({
       verifyToken: token,
-      verifyTokenExpiry: { $gt: Date.now() },
+      // verifyTokenExpiry: { $gt: Date.now() },
     });
 
     console.log("user", userFromDB);
@@ -37,3 +39,11 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   NextResponse.json({ Key: "Value" });
 }
+
+// export async function POST(request: NextRequest) {
+//   const value = await request.json();
+//   // console.log(value.token);
+//   const { token } = value;
+//   console.log(token);
+//   return NextResponse.json({ data: token });
+// }
